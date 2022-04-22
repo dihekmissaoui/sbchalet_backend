@@ -59,7 +59,7 @@ public class PostController {
 		@DeleteMapping("/{id}")
 		@ResponseBody
 		public void removePost(@PathVariable("id") int id) {
-			postservice.remove(id);
+			 postservice.remove(id);
 		}
 
 		// mis a jour post

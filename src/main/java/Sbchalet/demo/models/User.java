@@ -8,6 +8,9 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 
 
 @Entity
@@ -83,4 +86,12 @@ public class User {
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
+	@JsonBackReference
+	public Set<Reservation> getReservation() {
+		return reservation;
+	}
+	public void setReservation(Set<Reservation> reservation) {
+		this.reservation = reservation;
+	}
+	
 }

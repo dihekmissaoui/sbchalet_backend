@@ -17,6 +17,7 @@ import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 @Entity
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id") // pour afficher le post du
 																							// comment
@@ -40,13 +41,28 @@ public class Post {
 	// @JsonManagedReference
 
 	// chaque post a plusieur image
-	//@OneToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE }, mappedBy = "post")
-	//private List<DatabaseFile> databaseFile = null;
+	// @OneToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE }, mappedBy
+	// = "post")
+	// private List<DatabaseFile> databaseFile = null;
 
 	@ManyToOne
 	private User user;
+
 	public Post() {
 		super();
+	}
+
+	public Post(int id, String title, Date date, String content, int likes, int dislikes, Set<CommentPost> comments,
+			User user) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.date = date;
+		this.content = content;
+		this.likes = likes;
+		this.dislikes = dislikes;
+		this.comments = comments;
+		this.user = user;
 	}
 
 	public int getId() {
@@ -101,18 +117,18 @@ public class Post {
 
 //	public List<DatabaseFile> getDatabaseFile() {
 //		return databaseFile;
-	//}
+	// }
 
-	//public void setDatabaseFile(List<DatabaseFile> databaseFile) {
-		//if (this.databaseFile == null) {
-		//	this.databaseFile = databaseFile;
-	//	} else {
-			//this.databaseFile.retainAll(databaseFile);
-			//this.databaseFile.addAll(databaseFile);
-		//}
+	// public void setDatabaseFile(List<DatabaseFile> databaseFile) {
+	// if (this.databaseFile == null) {
+	// this.databaseFile = databaseFile;
+	// } else {
+	// this.databaseFile.retainAll(databaseFile);
+	// this.databaseFile.addAll(databaseFile);
+	// }
 
-		//this.databaseFile = databaseFile;
-	//}
+	// this.databaseFile = databaseFile;
+	// }
 
 	public int getLikes() {
 		return likes;
@@ -136,7 +152,8 @@ public class Post {
 		int result = 1;
 		result = prime * result + ((comments == null) ? 0 : comments.hashCode());
 		result = prime * result + ((content == null) ? 0 : content.hashCode());
-	//	result = prime * result + ((databaseFile == null) ? 0 : databaseFile.hashCode());
+		// result = prime * result + ((databaseFile == null) ? 0 :
+		// databaseFile.hashCode());
 		result = prime * result + ((date == null) ? 0 : date.hashCode());
 		result = prime * result + dislikes;
 		result = prime * result + id;
@@ -164,4 +181,17 @@ public class Post {
 
 		return true;
 	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
 }

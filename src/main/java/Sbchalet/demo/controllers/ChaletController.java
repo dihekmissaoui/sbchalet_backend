@@ -35,6 +35,7 @@ import Sbchalet.demo.services.IPostService;
 @RestController
 @CrossOrigin
 @RequestMapping("/api/chalet")
+
 public class ChaletController {
 	
 	@Autowired

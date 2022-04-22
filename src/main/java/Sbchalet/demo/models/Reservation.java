@@ -14,12 +14,16 @@ import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
+
 public class Reservation {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+
 	private int idResarvation;
 	@Temporal(TemporalType.DATE) // pour avoir le type de date
 	private Date dateDeDebut;
@@ -27,10 +31,10 @@ public class Reservation {
 	private Date dateDeDefin;
 
 	@ManyToOne
+
 	private User user;
 
 	@ManyToOne
-	@JsonIgnore
 
 	private Chalet chalet;
 
@@ -48,7 +52,10 @@ public class Reservation {
 		this.dateDeDefin = dateDeDefin;
 		this.user = user;
 		this.chalet = chalet;
+
 	}
+
+	@JsonManagedReference
 
 	public Chalet getChalet() {
 		return chalet;
@@ -58,6 +65,7 @@ public class Reservation {
 		this.chalet = chalet;
 	}
 
+	@JsonManagedReference
 	public User getUser() {
 		return user;
 	}

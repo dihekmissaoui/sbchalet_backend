@@ -8,7 +8,7 @@ public interface IPostService {
 
 	Post save(Post p);
 
-	void remove(int idPost);
+	void remove(int id);
 
 	Post updatePost(int idPost, Post post);
 

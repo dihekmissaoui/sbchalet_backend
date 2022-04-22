@@ -7,5 +7,6 @@ import Sbchalet.demo.models.Facture;
 
 @Repository
 public interface FactureRepository extends JpaRepository<Facture, Integer> {
+	public Facture findByMontant (float montant);
 
 }
