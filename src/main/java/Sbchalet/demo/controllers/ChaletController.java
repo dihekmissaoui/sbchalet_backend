@@ -66,7 +66,7 @@ public class ChaletController {
 	}
 
 	// ajouter post
-	@PostMapping("/")
+	@PostMapping("")
 	@ResponseBody
 	public Chalet addChalet(@RequestBody Chalet ch) {
 		Chalet chalet = chaletservice.save(ch);

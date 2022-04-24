@@ -24,7 +24,7 @@ import Sbchalet.demo.models.User;
 
 @RestController
 @RequestMapping("/api/reservation")
-public class ResarvationController {
+public class ReservationController {
 
 	private IReservationService reservationService;
 //	private UserRepository userRepository;

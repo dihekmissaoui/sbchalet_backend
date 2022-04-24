@@ -49,7 +49,7 @@ public class CommentPost {
 		
 	}
 	
-
+	
 	public CommentPost(int id, Date date, String text, int likes, int dislikes, Post post) {
 		super();
 		this.id = id;
@@ -59,13 +59,14 @@ public class CommentPost {
 		this.dislikes = dislikes;
 		this.post = post;
 	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
+	
+	public CommentPost(Date date, String text, int likes, int dislikes, Post post) {
+		super();
+		this.date = date;
+		this.text = text;
+		this.likes = likes;
+		this.dislikes = dislikes;
+		this.post = post;
 	}
 
 	public Date getDate() {
@@ -84,14 +85,6 @@ public class CommentPost {
 		this.text = text;
 	}
 
-	public Post getPost() {
-		return post;
-	}
-
-	public void setPost(Post post) {
-		this.post = post;
-	}
-
 	public int getLikes() {
 		return likes;
 	}
@@ -107,4 +100,18 @@ public class CommentPost {
 	public void setDislikes(int dislikes) {
 		this.dislikes = dislikes;
 	}
+
+	public Post getPost() {
+		return post;
+	}
+
+	public void setPost(Post post) {
+		this.post = post;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+
 }

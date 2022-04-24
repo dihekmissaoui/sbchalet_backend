@@ -40,7 +40,7 @@ public class Post {
 	private Set<CommentPost> comments;
 	// @JsonManagedReference
 
-	// chaque post a plusieur image
+	// chaque post a plusieur images
 	// @OneToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE }, mappedBy
 	// = "post")
 	// private List<DatabaseFile> databaseFile = null;
@@ -56,6 +56,18 @@ public class Post {
 			User user) {
 		super();
 		this.id = id;
+		this.title = title;
+		this.date = date;
+		this.content = content;
+		this.likes = likes;
+		this.dislikes = dislikes;
+		this.comments = comments;
+		this.user = user;
+	}
+
+	public Post(String title, Date date, String content, int likes, int dislikes, Set<CommentPost> comments,
+			User user) {
+		super();
 		this.title = title;
 		this.date = date;
 		this.content = content;
