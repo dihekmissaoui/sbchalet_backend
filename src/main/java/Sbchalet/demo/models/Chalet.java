@@ -51,7 +51,7 @@ public class Chalet implements Serializable {
 	}
 
 	public Chalet(int id, String description, double prix, String adresse, String etat, String ville, String codeZip,
-			Set<Reservation> reservation, List<DatabaseFile> images) {
+			Set<Reservation> reservations, List<DatabaseFile> images) {
 		super();
 		this.id = id;
 		this.description = description;
@@ -60,12 +60,12 @@ public class Chalet implements Serializable {
 		this.etat = etat;
 		this.ville = ville;
 		this.codeZip = codeZip;
-		this.reservations = reservation;
+		this.reservations = reservations;
 		this.images = images;
 	}
 
 	public Chalet(String description, double prix, String adresse, String etat, String ville, String codeZip,
-			Set<Reservation> reservation, List<DatabaseFile> images) {
+			Set<Reservation> reservations, List<DatabaseFile> images) {
 		super();
 		this.description = description;
 		this.prix = prix;
@@ -73,7 +73,7 @@ public class Chalet implements Serializable {
 		this.etat = etat;
 		this.ville = ville;
 		this.codeZip = codeZip;
-		this.reservations = reservation;
+		this.reservations = reservations;
 		this.images = images;
 	}
 	
@@ -137,13 +137,7 @@ public class Chalet implements Serializable {
 		this.codeZip = codeZip;
 	}
 
-	public Set<Reservation> getReservation() {
-		return reservations;
-	}
 
-	public void setReservation(Set<Reservation> reservation) {
-		this.reservations = reservation;
-	}
 
 	public List<DatabaseFile> getImages() {
 		return images;
@@ -155,6 +149,14 @@ public class Chalet implements Serializable {
 
 	public int getId() {
 		return id;
+	}
+
+	public Set<Reservation> getReservations() {
+		return reservations;
+	}
+
+	public void setReservations(Set<Reservation> reservations) {
+		this.reservations = reservations;
 	}
 
 }

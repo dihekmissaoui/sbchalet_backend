@@ -56,8 +56,6 @@ public class Reservation implements Serializable{
 		this.user = user;
 		this.chalet = chalet;
 	}
-	
-	
 
 	public Reservation(Date dateDeDebut, Date dateDeDefin, User user, Chalet chalet, Facture facture) {
 		super();
@@ -65,10 +63,7 @@ public class Reservation implements Serializable{
 		this.dateDeDefin = dateDeDefin;
 		this.user = user;
 		this.chalet = chalet;
-//		this.facture = facture;
 	}
-	
-	
 
 	public Reservation(Date dateDeDebut, Date dateDeDefin, Chalet chalet) {
 		super();
@@ -93,26 +88,6 @@ public class Reservation implements Serializable{
 		this.dateDeDefin = dateDeDefin;
 	}
 
-	public Chalet getChalet() {
-		return chalet;
-	}
-
-	public void setChalet(Chalet chalet) {
-		this.chalet = chalet;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-	public int getIdResarvation() {
-		return id;
-	}
-
-	public void setIdResarvation(int idResarvation) {
-		this.id = idResarvation;
-	}
-
 	public Date getDateDeDebut() {
 		return dateDeDebut;
 	}
@@ -129,5 +104,27 @@ public class Reservation implements Serializable{
 		this.dateDeDefin = dateDeDefin;
 	}
 
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Chalet getChalet() {
+		return chalet;
+	}
+
+	public void setChalet(Chalet chalet) {
+		this.chalet = chalet;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	
+	
 
 }

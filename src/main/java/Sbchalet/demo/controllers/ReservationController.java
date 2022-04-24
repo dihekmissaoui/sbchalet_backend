@@ -4,8 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,16 +12,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import Sbchalet.demo.models.Reservation;
-import Sbchalet.demo.repository.UserRepository;
 import Sbchalet.demo.services.IReservationService;
-import Sbchalet.demo.models.User;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api/reservation")
 public class ReservationController {
 
@@ -53,7 +50,7 @@ public class ReservationController {
 	}
 
 	// ajouter post
-	@PostMapping("/")
+	@PostMapping("")
 	@ResponseBody
 	public Reservation addReservation(@RequestBody Reservation res) throws Exception {
 		
