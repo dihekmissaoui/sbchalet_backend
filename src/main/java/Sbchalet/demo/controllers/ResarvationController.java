@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +23,7 @@ import Sbchalet.demo.services.IReservationService;
 import Sbchalet.demo.models.User;
 
 @RestController
-@RequestMapping("/api/test")
+@RequestMapping("/api/reservation")
 public class ResarvationController {
 
 	private IReservationService reservationService;
@@ -39,7 +40,7 @@ public class ResarvationController {
 //	}
 
 	// getPost => afficher les posts
-	@GetMapping("/")
+	@GetMapping("")
 	public List<Reservation> getAllPost() {
 		return this.reservationService.list();
 	}
@@ -55,12 +56,8 @@ public class ResarvationController {
 	@PostMapping("/")
 	@ResponseBody
 	public Reservation addReservation(@RequestBody Reservation res) throws Exception {
-//		Optional<User> u = userRepository.findById(res.getUser().getId());
-//		if(u.isPresent()) {
-//			res.setUser(u.get());
-//		}else {
-//			throw new Exception("User not Found");
-//		}
+		
+		
 		Reservation reservation = reservationService.save(res);
 		return reservation;
 	}

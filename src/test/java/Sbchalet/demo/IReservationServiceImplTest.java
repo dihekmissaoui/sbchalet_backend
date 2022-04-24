@@ -24,7 +24,7 @@ class IReservationServiceImplTest {
 	public void testlist() {
 
 		List<Reservation> res = rep.findAll();
-		Assertions.assertEquals(7, res.size());
+		Assertions.assertEquals(5, res.size());
 
 	}
 	

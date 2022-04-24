@@ -11,11 +11,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Chalet implements Serializable {
@@ -31,11 +27,10 @@ public class Chalet implements Serializable {
 	private int prix;
 	private String nom;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = { CascadeType.ALL }, mappedBy = "chalet", orphanRemoval = true)
-
+	@OneToMany( cascade = CascadeType.ALL , mappedBy = "chalet", orphanRemoval = true)
 	private Set<Reservation> reservation;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE }, mappedBy = "chalet")
+	@OneToMany(cascade = CascadeType.MERGE , mappedBy = "chalet")
 	private List<DatabaseFile> images = null;
 
 	public Chalet() {
@@ -81,7 +76,6 @@ public class Chalet implements Serializable {
 		this.nom = nom;
 	}
 
-	@JsonBackReference
 	public Set<Reservation> getReservation() {
 		return reservation;
 	}
@@ -97,5 +91,13 @@ public class Chalet implements Serializable {
 	public void setImages(List<DatabaseFile> images) {
 		this.images = images;
 	}
+
+	@Override
+	public String toString() {
+		return "Chalet [id=" + id + ", description=" + description + ", prix=" + prix + ", nom=" + nom
+				+ ", reservation=" + reservation + ", images=" + images + "]";
+	}
+	
+	
 
 }
