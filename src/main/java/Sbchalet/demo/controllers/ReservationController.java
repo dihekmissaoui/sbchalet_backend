@@ -53,8 +53,6 @@ public class ReservationController {
 	@PostMapping("")
 	@ResponseBody
 	public Reservation addReservation(@RequestBody Reservation res) throws Exception {
-		
-		
 		Reservation reservation = reservationService.save(res);
 		return reservation;
 	}

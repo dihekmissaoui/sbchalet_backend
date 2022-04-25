@@ -45,7 +45,7 @@ public class Chalet implements Serializable {
 	private Set<Reservation> reservations = new HashSet<Reservation>();
 
 	@OneToMany(cascade = CascadeType.MERGE, mappedBy = "chalet")
-	private List<DatabaseFile> images = new ArrayList();
+	private List<DatabaseFile> images = new ArrayList<DatabaseFile>();
 
 	public Chalet() {
 	}
