@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 
-public class Reservation implements Serializable{
+public class Reservation implements Serializable {
 	/**
 	 * 
 	 */
@@ -31,17 +31,18 @@ public class Reservation implements Serializable{
 	private Date dateDeDefin;
 
 	private float nbNuites;
-	
 	private float totalPrix;
-	
-	
+	private int nbAdultes;
+	private int nbEnfant;
+	private int nbAnimal;
+
 	@ManyToOne
-    @JoinColumn(name="user_id")
+	@JoinColumn(name = "user_id")
 	private User user;
 
 	@JsonBackReference
-	@ManyToOne(fetch = FetchType.EAGER)	
-    @JoinColumn(name="chalet_id")
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "chalet_id")
 	private Chalet chalet;
 
 //	@OneToOne
@@ -49,7 +50,6 @@ public class Reservation implements Serializable{
 
 	public Reservation() {
 	}
-	
 
 	public Reservation(int id, Date dateDeDebut, Date dateDeDefin, User user, Chalet chalet) {
 		super();
@@ -59,8 +59,6 @@ public class Reservation implements Serializable{
 		this.user = user;
 		this.chalet = chalet;
 	}
-	
-	
 
 	public Reservation(Date dateDeDebut, Date dateDeDefin, float nbNuites, float totalPrix, Chalet chalet) {
 		super();
@@ -70,6 +68,7 @@ public class Reservation implements Serializable{
 		this.totalPrix = totalPrix;
 		this.chalet = chalet;
 	}
+
 	public Reservation(Date dateDeDebut, Date dateDeDefin, float nbNuites, float totalPrix, Chalet chalet, User user) {
 		super();
 		this.dateDeDebut = dateDeDebut;
@@ -79,7 +78,6 @@ public class Reservation implements Serializable{
 		this.chalet = chalet;
 		this.user = user;
 	}
-
 
 	public Reservation(Date dateDeDebut, Date dateDeDefin, User user, Chalet chalet, Facture facture) {
 		super();
@@ -95,15 +93,12 @@ public class Reservation implements Serializable{
 		this.dateDeDefin = dateDeDefin;
 		this.chalet = chalet;
 	}
-	
 
 	public Reservation(Date dateDeDebut, Date dateDeDefin) {
 		super();
 		this.dateDeDebut = dateDeDebut;
 		this.dateDeDefin = dateDeDefin;
 	}
-	
-	
 
 	public Reservation(int id, Date dateDeDebut, Date dateDeDefin) {
 		super();
@@ -148,27 +143,44 @@ public class Reservation implements Serializable{
 		return id;
 	}
 
-
 	public float getNbNuites() {
 		return nbNuites;
 	}
-
 
 	public void setNbNuites(float nbNuites) {
 		this.nbNuites = nbNuites;
 	}
 
-
 	public float getTotalPrix() {
 		return totalPrix;
 	}
-
 
 	public void setTotalPrix(float totalPrix) {
 		this.totalPrix = totalPrix;
 	}
 
-	
-	
+	public int getNbAdultes() {
+		return nbAdultes;
+	}
+
+	public void setNbAdultes(int nbAdultes) {
+		this.nbAdultes = nbAdultes;
+	}
+
+	public int getNbEnfant() {
+		return nbEnfant;
+	}
+
+	public void setNbEnfant(int nbEnfant) {
+		this.nbEnfant = nbEnfant;
+	}
+
+	public int getNbAnimal() {
+		return nbAnimal;
+	}
+
+	public void setNbAnimal(int nbAnimal) {
+		this.nbAnimal = nbAnimal;
+	}
 
 }

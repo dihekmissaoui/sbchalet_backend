@@ -15,7 +15,6 @@ public class DatabaseFile {
 	
 	@Id @GeneratedValue(generator="system-uuid")
 	@GenericGenerator(name="system-uuid", strategy = "uuid")
-
 	private String id;
 
 	private String fileName;
@@ -23,10 +22,6 @@ public class DatabaseFile {
 	private String fileType;
 	@Lob
 	private byte[] data;
-
-	// plusieur image associer a une seule post
-	//@ManyToOne(fetch = FetchType.EAGER)
-	//private Post post;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonIgnore
@@ -40,7 +35,6 @@ public class DatabaseFile {
 
 	public DatabaseFile( String fileName, String fileType, byte[] data) {
 		super();
-//		this.id = id;
 		this.fileName = fileName;
 		this.fileType = fileType;
 		this.data = data;
@@ -48,7 +42,6 @@ public class DatabaseFile {
 	
 	public DatabaseFile(String fileName, String fileType, byte[] data, Chalet chalet) {
 			super();
-//			this.id = id;
 			this.fileName = fileName;
 			this.fileType = fileType;
 			this.data = data;

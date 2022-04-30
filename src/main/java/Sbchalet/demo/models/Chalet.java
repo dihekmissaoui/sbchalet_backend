@@ -39,6 +39,14 @@ public class Chalet implements Serializable {
 	private String ville;
 	@Column
 	private String codeZip;
+	
+	
+	private int maxAdulte;
+	private int maxEnfant;
+	private int maxBebe;
+	private int maxAnimal;
+	
+	
 
 	@JsonManagedReference
 	@OneToMany(mappedBy = "chalet", fetch = FetchType.EAGER, targetEntity = Reservation.class, cascade = CascadeType.ALL)
@@ -47,6 +55,11 @@ public class Chalet implements Serializable {
 	@OneToMany(cascade = CascadeType.MERGE, mappedBy = "chalet")
 	private List<DatabaseFile> images = new ArrayList<DatabaseFile>();
 
+	@OneToMany(cascade = CascadeType.MERGE, mappedBy = "chalet")
+	private List<Equipement> equipements = new ArrayList<Equipement>();
+
+	
+	
 	public Chalet() {
 	}
 
@@ -158,5 +171,39 @@ public class Chalet implements Serializable {
 	public void setReservations(Set<Reservation> reservations) {
 		this.reservations = reservations;
 	}
+
+	public int getMaxAdulte() {
+		return maxAdulte;
+	}
+
+	public void setMaxAdulte(int maxAdulte) {
+		this.maxAdulte = maxAdulte;
+	}
+
+	public int getMaxEnfant() {
+		return maxEnfant;
+	}
+
+	public void setMaxEnfant(int maxEnfant) {
+		this.maxEnfant = maxEnfant;
+	}
+
+	public int getMaxBebe() {
+		return maxBebe;
+	}
+
+	public void setMaxBebe(int maxBebe) {
+		this.maxBebe = maxBebe;
+	}
+
+	public int getMaxAnimal() {
+		return maxAnimal;
+	}
+
+	public void setMaxAnimal(int maxAnimal) {
+		this.maxAnimal = maxAnimal;
+	}
+	
+	
 
 }

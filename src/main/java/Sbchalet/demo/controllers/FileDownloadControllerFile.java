@@ -25,7 +25,6 @@ public class FileDownloadControllerFile {
 
 	@GetMapping("/downloadFile/{fileId:.+}")
 	public ResponseEntity<Resource> downloadFile(@PathVariable String fileId, HttpServletRequest request) {
-		// Load file as Resource
 		DatabaseFile databaseFile = fileStorageService.getFile(fileId);
 
 		return ResponseEntity.ok().contentType(MediaType.parseMediaType(databaseFile.getFileType()))
