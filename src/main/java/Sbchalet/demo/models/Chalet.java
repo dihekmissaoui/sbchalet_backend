@@ -203,6 +203,16 @@ public class Chalet implements Serializable {
 	public void setMaxAnimal(int maxAnimal) {
 		this.maxAnimal = maxAnimal;
 	}
+
+	public List<Equipement> getEquipements() {
+		return equipements;
+	}
+
+	public void setEquipements(List<Equipement> equipements) {
+		this.equipements = equipements;
+	}
+	
+	
 	
 	
 

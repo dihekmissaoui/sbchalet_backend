@@ -30,6 +30,9 @@ public class Equipement implements Serializable{
 	
 	@Column
 	private boolean disponibile;
+	
+	@Column 
+	private String icon;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonIgnore
@@ -39,11 +42,12 @@ public class Equipement implements Serializable{
 		super();
 	}
 
-	public Equipement(int id, String nom, boolean disponibile) {
+	public Equipement(int id, String nom, boolean disponibile, String icon) {
 		super();
 		this.id = id;
 		this.nom = nom;
 		this.disponibile = disponibile;
+		this.icon = icon;
 	}
 
 	public Equipement(String nom, boolean disponibile) {
@@ -80,6 +84,15 @@ public class Equipement implements Serializable{
 	public int getId() {
 		return id;
 	}
+
+	public String getIcon() {
+		return icon;
+	}
+
+	public void setIcon(String icon) {
+		this.icon = icon;
+	}
+	
 	
 	
 	
