@@ -35,6 +35,7 @@ public class Reservation implements Serializable {
 	private int nbAdultes;
 	private int nbEnfant;
 	private int nbAnimal;
+	private String status;
 
 	@ManyToOne
 	@JoinColumn(name = "user_id")
@@ -183,4 +184,13 @@ public class Reservation implements Serializable {
 		this.nbAnimal = nbAnimal;
 	}
 
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	
 }
