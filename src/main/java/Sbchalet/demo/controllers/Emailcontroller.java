@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import Sbchalet.demo.resource.EmailMessage;
-import Sbchalet.demo.services.EmailSenderServiceImpl;
 import Sbchalet.demo.services.IEmailSenderService;
 
 @RestController
@@ -20,7 +19,7 @@ public class Emailcontroller {
 	}
 
 	@PostMapping("/send-email")
-	public ResponseEntity sendEmail(@RequestBody EmailMessage emailMessage) {
+	public ResponseEntity<String> sendEmail(@RequestBody EmailMessage emailMessage) {
 
 		this.emailSenderService.sendEmail(emailMessage.getTo(), emailMessage.getSubject(), emailMessage.getMessage());
 		return ResponseEntity.ok("Success");

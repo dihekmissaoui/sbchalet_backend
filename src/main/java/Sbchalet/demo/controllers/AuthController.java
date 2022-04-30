@@ -30,7 +30,9 @@ import Sbchalet.demo.payload.response.MessageResponse;
 import Sbchalet.demo.repository.RoleRepository;
 import Sbchalet.demo.repository.UserRepository;
 import Sbchalet.demo.security.jwt.JwtUtils;
+import Sbchalet.demo.services.IUserservice;
 import Sbchalet.demo.services.UserDetailsImpl;
+import Sbchalet.demo.services.UserServiceImpl;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -47,111 +49,63 @@ public class AuthController {
 	@Autowired
 	JwtUtils jwtUtils;
 	
+	IUserservice userService;
+	
+	
+
+	@Autowired
+	public void setUserServiceImpl(UserServiceImpl userService) {
+		this.userService = userService;
+	}
+
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+		
+		
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
-		SecurityContextHolder.getContext().setAuthentication(authentication);
-		String jwt = jwtUtils.generateJwtToken(authentication);
 		
-		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();		
-		List<String> roles = userDetails.getAuthorities().stream()
-				.map(item -> item.getAuthority())
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+		
+		String jwt = jwtUtils.generateJwtToken(authentication);
+
+		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+		
+		List<String> roles = userDetails.getAuthorities().stream().map(item -> item.getAuthority())
 				.collect(Collectors.toList());
-		return ResponseEntity.ok(new JwtResponse(jwt, 
-				 userDetails.getId(), 
-				 userDetails.getUsername(), 
-				 userDetails.getEmail(), 
-				 roles));
-												 
-												  
-												 
-												 
+		
+		
+		return ResponseEntity.ok(
+				new JwtResponse(jwt, userDetails.getId(), userDetails.getUsername(), userDetails.getEmail(), roles));
+
 	}
+
 	@PostMapping("/signup")
-	public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
-		if (userRepository.existsByUsername(signUpRequest.getUsername())) {
-			return ResponseEntity
-					.badRequest()
-					.body(new MessageResponse("Error: Username is already taken!"));
-		}
-		if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-			return ResponseEntity
-					.badRequest()
-					.body(new MessageResponse("Error: Email is already in use!"));
-		}
-		// Create new user's account
-		User user = new User(signUpRequest.getUsername(), 
-							 signUpRequest.getEmail(),
-							 encoder.encode(signUpRequest.getPassword()));
-		Set<String> strRoles = signUpRequest.getRole();
-		Set<Role> roles = new HashSet<>();
-		if (strRoles == null) {
-			
-			Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-					.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-			roles.add(userRole);
-		} else {
-			strRoles.forEach(role -> {
-				switch (role) {
-				case "admin":
-					Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
-							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-					roles.add(adminRole);
-					break;
-					
-					/*
-					break;
-				case "mod":
-					Role modRole = roleRepository.findByName(ERole.ROLE_MODERATOR)
-							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-					roles.add(modRole);
-					break;
-				default:
-					*/
-				case "user":
-					Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-					roles.add(userRole);
-					break;
-			   default :
-						Role userRole1= roleRepository.findByName(ERole.ROLE_USER)
-						.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-				roles.add(userRole1);
-					
-				}
-			});
-		}
+	public ResponseEntity<?> registerUser(@RequestBody SignupRequest signUpRequest) {
+
+		this.checkForExistance(signUpRequest);
+		User user = generateUser(signUpRequest);
+		Set<Role> roles = generateUserRole(signUpRequest);
 		user.setRoles(roles);
-		userRepository.save(user);
-		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+		User savedUser = userRepository.save(user);
+		return ResponseEntity.ok(savedUser);
+	}
+	
+
+	private Set<Role> generateUserRole(SignupRequest signUpRequest) {
+		return this.userService.generateUserRole(signUpRequest);
 	}
 
-	
-	
-	
-	
-	
+	private User generateUser(SignupRequest signUpRequest) {
+		return this.userService.generateUser(signUpRequest);
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	}
+
+	private ResponseEntity<MessageResponse> checkForExistance(SignupRequest signUpRequest) {
+
+		String message = this.userService.checkForExistance(signUpRequest);
+		return ResponseEntity.badRequest().body(new MessageResponse(message));
+
+	}
 
 }

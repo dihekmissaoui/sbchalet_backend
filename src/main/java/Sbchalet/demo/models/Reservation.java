@@ -10,13 +10,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 
@@ -33,6 +30,11 @@ public class Reservation implements Serializable{
 	@Temporal(TemporalType.DATE)
 	private Date dateDeDefin;
 
+	private float nbNuites;
+	
+	private float totalPrix;
+	
+	
 	@ManyToOne
     @JoinColumn(name="user_id")
 	private User user;
@@ -47,6 +49,7 @@ public class Reservation implements Serializable{
 
 	public Reservation() {
 	}
+	
 
 	public Reservation(int id, Date dateDeDebut, Date dateDeDefin, User user, Chalet chalet) {
 		super();
@@ -56,6 +59,27 @@ public class Reservation implements Serializable{
 		this.user = user;
 		this.chalet = chalet;
 	}
+	
+	
+
+	public Reservation(Date dateDeDebut, Date dateDeDefin, float nbNuites, float totalPrix, Chalet chalet) {
+		super();
+		this.dateDeDebut = dateDeDebut;
+		this.dateDeDefin = dateDeDefin;
+		this.nbNuites = nbNuites;
+		this.totalPrix = totalPrix;
+		this.chalet = chalet;
+	}
+	public Reservation(Date dateDeDebut, Date dateDeDefin, float nbNuites, float totalPrix, Chalet chalet, User user) {
+		super();
+		this.dateDeDebut = dateDeDebut;
+		this.dateDeDefin = dateDeDefin;
+		this.nbNuites = nbNuites;
+		this.totalPrix = totalPrix;
+		this.chalet = chalet;
+		this.user = user;
+	}
+
 
 	public Reservation(Date dateDeDebut, Date dateDeDefin, User user, Chalet chalet, Facture facture) {
 		super();
@@ -122,6 +146,26 @@ public class Reservation implements Serializable{
 
 	public int getId() {
 		return id;
+	}
+
+
+	public float getNbNuites() {
+		return nbNuites;
+	}
+
+
+	public void setNbNuites(float nbNuites) {
+		this.nbNuites = nbNuites;
+	}
+
+
+	public float getTotalPrix() {
+		return totalPrix;
+	}
+
+
+	public void setTotalPrix(float totalPrix) {
+		this.totalPrix = totalPrix;
 	}
 
 	
