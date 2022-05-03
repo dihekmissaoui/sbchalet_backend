@@ -27,8 +27,11 @@ public class Facture implements Serializable {
 	@Column
 	private int id;
 	@Temporal(TemporalType.DATE) // pour avoir le type de date
-	private Date DateFacture;
+	private Date dateFacture;
 	private float montant;
+	
+	private boolean isTotalPayment;
+	private float rest;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonIgnore
@@ -41,30 +44,33 @@ public class Facture implements Serializable {
 	public Facture(int id, Date dateFacture, float montant) {
 		super();
 		this.id = id;
-		DateFacture = dateFacture;
+		this.dateFacture = dateFacture;
 		this.montant = montant;
 	}
 
 	public Facture(Date dateFacture, float montant, Reservation reservation) {
 		super();
-		DateFacture = dateFacture;
+		this.dateFacture = dateFacture;
 		this.montant = montant;
-			}
+		this.reservation = reservation;
+	}
+	
+	
 
 	public int getId() {
 		return id;
 	}
 
-	public void setId_Facture(int id_Facture) {
-		this.id = id_Facture;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public Date getDateFacture() {
-		return DateFacture;
+		return dateFacture;
 	}
 
 	public void setDateFacture(Date dateFacture) {
-		DateFacture = dateFacture;
+		this.dateFacture = dateFacture;
 	}
 
 	public float getMontant() {
@@ -83,6 +89,23 @@ public class Facture implements Serializable {
 		this.reservation = reservation;
 	}
 
+	public boolean isTotalPayment() {
+		return isTotalPayment;
+	}
+
+	public void setTotalPayment(boolean isTotalPayment) {
+		this.isTotalPayment = isTotalPayment;
+	}
+
+	public float getRest() {
+		return rest;
+	}
+
+	public void setRest(float rest) {
+		this.rest = rest;
+	}
+
+	
 	
 
 }
