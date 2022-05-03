@@ -1,49 +1,57 @@
-package Sbchalet.demo.payload.request;
+package Sbchalet.demo.payload.response;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
+import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import Sbchalet.demo.models.Chalet;
+import Sbchalet.demo.models.DatabaseFile;
 import Sbchalet.demo.models.User;
 
-public class ReservationRequest {
-
+public class ReservationResponse {
 	private int id;
 	private Date dateDeDebut;
 	private Date dateDeDefin;
-	private int chaletId;
 	private float nbNuites;
 	private float totalPrix;
 	private int nbAdultes;
 	private int nbEnfant;
 	private int nbAnimal;
 	private String status;
+	
+	private Chalet chalet;
 	private User user;
 	
-	public ReservationRequest() {
+	@OneToMany
+	private List<DatabaseFile> files = new ArrayList<DatabaseFile>();
+	
+	public ReservationResponse() {
 		super();
 	}
-	
-	
-	
-	public ReservationRequest(Date dateDeDebut, Date dateDeDefin, int chaletId, float nbNuites, float totalPrix) {
+	public ReservationResponse(int id, Date dateDeDebut, Date dateDeDefin, float nbNuites, float totalPrix,
+			int nbAdultes, int nbEnfant, int nbAnimal, String status, Chalet chalet, User user) {
 		super();
+		this.id = id;
 		this.dateDeDebut = dateDeDebut;
 		this.dateDeDefin = dateDeDefin;
-		this.chaletId = chaletId;
 		this.nbNuites = nbNuites;
 		this.totalPrix = totalPrix;
-	}
-
-
-
-	public ReservationRequest(Date dateDeDebut, Date dateDeDefin, int chalet) {
-		super();
-		this.dateDeDebut = dateDeDebut;
-		this.dateDeDefin = dateDeDefin;
-		this.chaletId = chalet;
+		this.nbAdultes = nbAdultes;
+		this.nbEnfant = nbEnfant;
+		this.nbAnimal = nbAnimal;
+		this.status = status;
+		this.chalet = chalet;
+		this.user = user;
 	}
 	public int getId() {
 		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
 	}
 	public Date getDateDeDebut() {
 		return dateDeDebut;
@@ -57,109 +65,63 @@ public class ReservationRequest {
 	public void setDateDeDefin(Date dateDeDefin) {
 		this.dateDeDefin = dateDeDefin;
 	}
-	
-
-
-
-	public int getChaletId() {
-		return chaletId;
-	}
-
-
-
-	public void setChaletId(int chaletId) {
-		this.chaletId = chaletId;
-	}
-
-
-
 	public float getNbNuites() {
 		return nbNuites;
 	}
-
-
-
 	public void setNbNuites(float nbNuites) {
 		this.nbNuites = nbNuites;
 	}
-
-
-
 	public float getTotalPrix() {
 		return totalPrix;
 	}
-
-
-
 	public void setTotalPrix(float totalPrix) {
 		this.totalPrix = totalPrix;
 	}
-
-
-
-	public User getUser() {
-		return user;
-	}
-
-
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-
-
 	public int getNbAdultes() {
 		return nbAdultes;
 	}
-
-
-
 	public void setNbAdultes(int nbAdultes) {
 		this.nbAdultes = nbAdultes;
 	}
-
-
-
 	public int getNbEnfant() {
 		return nbEnfant;
 	}
-
-
-
 	public void setNbEnfant(int nbEnfant) {
 		this.nbEnfant = nbEnfant;
 	}
-
-
-
 	public int getNbAnimal() {
 		return nbAnimal;
 	}
-
-
-
 	public void setNbAnimal(int nbAnimal) {
 		this.nbAnimal = nbAnimal;
 	}
-
-
-
 	public String getStatus() {
 		return status;
 	}
-
-
-
 	public void setStatus(String status) {
 		this.status = status;
 	}
-
-
-
-	public void setId(int id) {
-		this.id = id;
+	public Chalet getChalet() {
+		return chalet;
+	}
+	public void setChalet(Chalet chalet) {
+		this.chalet = chalet;
+	}
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
+	public List<DatabaseFile> getFiles() {
+		return files;
+	}
+	public void setFiles(List<DatabaseFile> files) {
+		this.files = files;
 	}
 	
 	
+	
+	
+
 }

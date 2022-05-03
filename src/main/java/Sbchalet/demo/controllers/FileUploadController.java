@@ -24,16 +24,24 @@ public class FileUploadController {
 
     @RequestMapping(path = "/uploadFile/{chaletId}", method = RequestMethod.POST, consumes = { "multipart/form-data" })
 	public Response uploadFile(@RequestParam("file") MultipartFile file, @RequestParam  int chaletId) {
+    	
 		DatabaseFile filename = fileStorageService.storeFile(file, chaletId);
 		String filedownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("downloadFile/")
 				.path(filename.getFileName()).toString();
 		return new Response(filename.getFileName(), filedownloadUri, file.getContentType(), file.getSize());
 
 	}
+    
 
 	@PostMapping("/uploadMultiFiles")
 	public List<Response> uploadMultiFiles(@RequestParam("files") MultipartFile[] files, @RequestParam int chaletId) {
 		return Arrays.asList(files).stream().map(file -> uploadFile(file, chaletId)).collect(Collectors.toList());
+	}
+	
+	
+	@PostMapping("/uploadMultiFiles")
+	public List<Response> uploadReservationFiles(@RequestParam("files") MultipartFile[] files, @RequestParam int reservationId) {
+		return Arrays.asList(files).stream().map(file -> uploadFile(file, reservationId)).collect(Collectors.toList());
 	}
 
 }

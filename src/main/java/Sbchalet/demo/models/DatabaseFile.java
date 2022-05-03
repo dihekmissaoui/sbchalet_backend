@@ -26,6 +26,10 @@ public class DatabaseFile {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonIgnore
 	private Chalet chalet;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnore
+	private Reservation reservation;
 
 
 	public DatabaseFile() {
@@ -88,5 +92,15 @@ public class DatabaseFile {
 	public void setChalet(Chalet chalet) {
 		this.chalet = chalet;
 	}
+
+	public Reservation getReservation() {
+		return reservation;
+	}
+
+	public void setReservation(Reservation reservation) {
+		this.reservation = reservation;
+	}
+	
+	
 
 }

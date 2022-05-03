@@ -7,16 +7,17 @@ import java.util.Optional;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import Sbchalet.demo.models.Reservation;
 import Sbchalet.demo.repository.ReservationRepository;
 
 @Service
-public class IReservationServiceImpl implements IReservationService {
+public class ReservationServiceImpl implements IReservationService {
 
 	@Autowired
 	ReservationRepository reservationRepository;
-	private static final Logger logger = Logger.getLogger(IReservationServiceImpl.class);
+	private static final Logger logger = Logger.getLogger(ReservationServiceImpl.class);
 
 	@Override
 	public List<Reservation> list() {
@@ -58,24 +59,53 @@ public class IReservationServiceImpl implements IReservationService {
 	}
 
 	@Override
+	@Transactional
 	public Reservation updateReservation(int idResarvation, Reservation reservation) {
-		try {
+		Reservation finded = null;
+
 			logger.info("je suis dans updateReservation()");
-			Reservation updatedpost = null;
 			Optional<Reservation> searchReservation = reservationRepository.findById(idResarvation);
 			if (searchReservation.isPresent()) {
-				Reservation finded = searchReservation.get();
-				finded = reservation;
-				logger.debug("je vais lancer updateReservation ,");
-				updatedpost = this.reservationRepository.save(finded);
-			}
-			logger.info("j'ai terminé mon instruction ");
-			return updatedpost;
 
-		} catch (Exception e) {
-			logger.error("Error dans updateReservation :", e);
-		}
-		return new Reservation();
+				finded = searchReservation.get();
+				finded = reservation;
+//				if (reservation.getDateDeDebut() != null) {
+//					finded.setDateDeDebut(reservation.getDateDeDebut());
+//				}
+//				if (reservation.getDateDeDefin() != null) {
+//					finded.setDateDeDefin(reservation.getDateDeDefin());
+//				}
+//				if (reservation.getNbNuites() != 0) {
+//					finded.setNbNuites(reservation.getNbNuites());
+//				}
+//				if (reservation.getTotalPrix() != 0) {
+//					finded.setTotalPrix(reservation.getTotalPrix());
+//				}
+//				if (reservation.getNbAdultes() != 0) {
+//					finded.setNbAdultes(reservation.getNbAdultes());
+//				}
+//				if (reservation.getNbEnfant() != 0) {
+//					finded.setNbEnfant(reservation.getNbEnfant());
+//				}
+//				if (reservation.getNbAnimal() != 0) {
+//					finded.setNbAnimal(reservation.getNbAnimal());
+//				}
+//				if (reservation.getStatus() != null) {
+//					finded.setStatus(reservation.getStatus());
+//				}
+//
+//				if (reservation.getChalet() != null) {
+//					finded.setChalet(reservation.getChalet());
+//				}
+//				if (reservation.getUser() != null) {
+//					finded.setUser(reservation.getUser());
+//				}
+
+				logger.debug("je vais lancer updateReservation ,");
+				finded = this.reservationRepository.save(finded);
+			}			
+		
+		return finded;
 
 	}
 
@@ -87,7 +117,22 @@ public class IReservationServiceImpl implements IReservationService {
 		} catch (Exception e) {
 			logger.error("Error dans getById() :", e);
 		}
-		return null ;
+		return null;
+	}
+
+	@Override
+	@Transactional
+	public Reservation changeStatus(int idResarvation, Reservation reservation) {
+		Reservation r = null;
+		Optional<Reservation> searchReservation = reservationRepository.findById(idResarvation);
+		if (searchReservation.isPresent()) {
+
+			Reservation finded = searchReservation.get();
+			finded.setStatus(reservation.getStatus());
+			r = this.reservationRepository.save(finded);
+
+		}
+		return r;
 	}
 
 }

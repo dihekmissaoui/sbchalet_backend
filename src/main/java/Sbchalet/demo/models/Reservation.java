@@ -1,7 +1,9 @@
 package Sbchalet.demo.models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,13 +12,18 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
-
+@DynamicUpdate
+@DynamicInsert
 public class Reservation implements Serializable {
 	/**
 	 * 
@@ -45,6 +52,11 @@ public class Reservation implements Serializable {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "chalet_id")
 	private Chalet chalet;
+	
+	
+	@OneToMany
+	@JoinColumn(name = "reservation_id")
+	private List<DatabaseFile> files = new ArrayList<DatabaseFile>();
 
 //	@OneToOne
 //	private Facture facture;
@@ -52,61 +64,24 @@ public class Reservation implements Serializable {
 	public Reservation() {
 	}
 
-	public Reservation(int id, Date dateDeDebut, Date dateDeDefin, User user, Chalet chalet) {
-		super();
-		this.id = id;
-		this.dateDeDebut = dateDeDebut;
-		this.dateDeDefin = dateDeDefin;
-		this.user = user;
-		this.chalet = chalet;
-	}
 
-	public Reservation(Date dateDeDebut, Date dateDeDefin, float nbNuites, float totalPrix, Chalet chalet) {
-		super();
-		this.dateDeDebut = dateDeDebut;
-		this.dateDeDefin = dateDeDefin;
-		this.nbNuites = nbNuites;
-		this.totalPrix = totalPrix;
-		this.chalet = chalet;
-	}
 
-	public Reservation(Date dateDeDebut, Date dateDeDefin, float nbNuites, float totalPrix, Chalet chalet, User user) {
-		super();
-		this.dateDeDebut = dateDeDebut;
-		this.dateDeDefin = dateDeDefin;
-		this.nbNuites = nbNuites;
-		this.totalPrix = totalPrix;
-		this.chalet = chalet;
-		this.user = user;
-	}
+	public Reservation(Date dateDeDebut, Date dateDeDefin, float nbNuites, float totalPrix, int nbAdultes, int nbEnfant,
+		int nbAnimal, String status, User user, Chalet chalet) {
+	super();
+	this.dateDeDebut = dateDeDebut;
+	this.dateDeDefin = dateDeDefin;
+	this.nbNuites = nbNuites;
+	this.totalPrix = totalPrix;
+	this.nbAdultes = nbAdultes;
+	this.nbEnfant = nbEnfant;
+	this.nbAnimal = nbAnimal;
+	this.status = status;
+	this.user = user;
+	this.chalet = chalet;
+}
 
-	public Reservation(Date dateDeDebut, Date dateDeDefin, User user, Chalet chalet, Facture facture) {
-		super();
-		this.dateDeDebut = dateDeDebut;
-		this.dateDeDefin = dateDeDefin;
-		this.user = user;
-		this.chalet = chalet;
-	}
 
-	public Reservation(Date dateDeDebut, Date dateDeDefin, Chalet chalet) {
-		super();
-		this.dateDeDebut = dateDeDebut;
-		this.dateDeDefin = dateDeDefin;
-		this.chalet = chalet;
-	}
-
-	public Reservation(Date dateDeDebut, Date dateDeDefin) {
-		super();
-		this.dateDeDebut = dateDeDebut;
-		this.dateDeDefin = dateDeDefin;
-	}
-
-	public Reservation(int id, Date dateDeDebut, Date dateDeDefin) {
-		super();
-		this.id = id;
-		this.dateDeDebut = dateDeDebut;
-		this.dateDeDefin = dateDeDefin;
-	}
 
 	public Date getDateDeDebut() {
 		return dateDeDebut;
@@ -192,5 +167,20 @@ public class Reservation implements Serializable {
 		this.status = status;
 	}
 
+
+
+	public List<DatabaseFile> getFiles() {
+		return files;
+	}
+
+
+
+	public void setFiles(List<DatabaseFile> files) {
+		this.files = files;
+	}
+
+
 	
+	
+
 }
