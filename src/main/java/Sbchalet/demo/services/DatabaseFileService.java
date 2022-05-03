@@ -1,23 +1,22 @@
 package Sbchalet.demo.services;
 
-import org.springframework.stereotype.Service;
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import org.apache.log4j.Logger;
+import org.omg.CosNaming.NamingContextPackage.NotFound;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
 import Sbchalet.demo.exception.FileNotFoundException;
 import Sbchalet.demo.exception.FileStorageException;
 import Sbchalet.demo.exception.PostNotFoundException;
-import Sbchalet.demo.exception.FileNotFoundException;
-import Sbchalet.demo.models.DatabaseFile;
-import Sbchalet.demo.models.Post;
 import Sbchalet.demo.models.Chalet;
+import Sbchalet.demo.models.DatabaseFile;
+import Sbchalet.demo.models.Reservation;
 import Sbchalet.demo.repository.DatabaseFileRepository;
 
 @Service
@@ -26,9 +25,11 @@ public class DatabaseFileService {
 	DatabaseFileRepository dbFileRepository;
 	@Autowired
 	IChaletService chaletService;
+	@Autowired
+	IReservationService reservationService;
 	private static final Logger logger = Logger.getLogger(DatabaseFileService.class);
 
-	public DatabaseFile storeFile(MultipartFile file, int id) {
+	public DatabaseFile storeFile(MultipartFile file, int id, String partOf) {
 		// Normalize file name
 		String fileName = org.springframework.util.StringUtils.cleanPath(file.getOriginalFilename());
 		try {
@@ -39,20 +40,30 @@ public class DatabaseFileService {
 						"Sorry! Filename contains invalid path sequence " + fileName);
 
 			}
-			Optional<Chalet> optionalChalet = chaletService.getById(id);
+
+			Object relatedEntity = null;
+			if (partOf.equals("chalet")) {
+				relatedEntity = chaletService.getChaletById(id);
+			}
+			if (partOf.equals("reservation")) {
+				relatedEntity = reservationService.getReservationById(id);
+			}
 			DatabaseFile dbFile = null;
-			if (optionalChalet.isPresent()) {
-				Chalet chalet = optionalChalet.get();
-				logger.debug("je vais saisie ");
-				dbFile = new DatabaseFile(fileName, file.getContentType(), file.getBytes(), chalet);
-				logger.debug("je vais enregister ");
+			if (relatedEntity != null) {
+				if (partOf.equals("chalet")) {
+					dbFile = new DatabaseFile(fileName, file.getContentType(), file.getBytes(), (Chalet) relatedEntity);
+				}
+				if (partOf.equals("reservation")) {
+					dbFile = new DatabaseFile(fileName, file.getContentType(), file.getBytes(),
+							(Reservation) relatedEntity);
+				}
 				return dbFileRepository.save(dbFile);
-			} else
-				throw new PostNotFoundException("pas de post dans la saisie de l'image");
+			} 
 		} catch (IOException ex) {
 			logger.error("Error :", ex);
 			throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
 		}
+		return null;
 
 	}
 

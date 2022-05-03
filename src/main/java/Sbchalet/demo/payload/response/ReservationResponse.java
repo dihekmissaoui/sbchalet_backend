@@ -10,6 +10,7 @@ import javax.persistence.TemporalType;
 
 import Sbchalet.demo.models.Chalet;
 import Sbchalet.demo.models.DatabaseFile;
+import Sbchalet.demo.models.Facture;
 import Sbchalet.demo.models.User;
 
 public class ReservationResponse {
@@ -28,6 +29,8 @@ public class ReservationResponse {
 	
 	@OneToMany
 	private List<DatabaseFile> files = new ArrayList<DatabaseFile>();
+	
+	private List<Facture> factures = new ArrayList<Facture>();
 	
 	public ReservationResponse() {
 		super();
@@ -118,6 +121,12 @@ public class ReservationResponse {
 	}
 	public void setFiles(List<DatabaseFile> files) {
 		this.files = files;
+	}
+	public List<Facture> getFactures() {
+		return factures;
+	}
+	public void setFactures(List<Facture> factures) {
+		this.factures = factures;
 	}
 	
 	

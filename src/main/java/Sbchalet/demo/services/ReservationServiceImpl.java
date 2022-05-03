@@ -5,10 +5,12 @@ import java.util.List;
 import java.util.Optional;
 
 import org.apache.log4j.Logger;
+import org.omg.CosNaming.NamingContextPackage.NotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import Sbchalet.demo.models.Chalet;
 import Sbchalet.demo.models.Reservation;
 import Sbchalet.demo.repository.ReservationRepository;
 
@@ -133,6 +135,26 @@ public class ReservationServiceImpl implements IReservationService {
 
 		}
 		return r;
+	}
+	
+	@Override
+	public Reservation getReservationById(int id) {
+
+		try {
+			logger.info("je vais afficher le Chalet par id =" + id);
+			Optional<Reservation> optional = this.reservationRepository.findById(id);
+			Reservation reservation = null;
+			if (optional.isPresent()) {
+				reservation = optional.get();
+				return reservation;
+			} else {
+				throw new NotFound("Reservation with id:" + id + " is not found", null, null);
+			}
+
+		} catch (Exception e) {
+			logger.error("Error dans getById() :", e);
+		}
+		return null;
 	}
 
 }

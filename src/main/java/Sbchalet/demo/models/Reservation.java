@@ -58,8 +58,9 @@ public class Reservation implements Serializable {
 	@JoinColumn(name = "reservation_id")
 	private List<DatabaseFile> files = new ArrayList<DatabaseFile>();
 
-//	@OneToOne
-//	private Facture facture;
+	@OneToMany
+	@JoinColumn(name = "reservation_id")
+	private List<Facture> factures = new ArrayList<Facture>();
 
 	public Reservation() {
 	}
@@ -177,6 +178,18 @@ public class Reservation implements Serializable {
 
 	public void setFiles(List<DatabaseFile> files) {
 		this.files = files;
+	}
+
+
+
+	public List<Facture> getFactures() {
+		return factures;
+	}
+
+
+
+	public void setFactures(List<Facture> factures) {
+		this.factures = factures;
 	}
 
 

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.apache.log4j.Logger;
+import org.omg.CosNaming.NamingContextPackage.NotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -86,14 +87,34 @@ public class ChaletServiceImpl implements IChaletService {
 
 	@Override
 	public Optional<Chalet> getById(int id_chalet) {
-		
+
 		try {
 			logger.info("je vais afficher le Chalet par id =" + id_chalet);
 			return this.chaletrepository.findById(id_chalet);
 		} catch (Exception e) {
 			logger.error("Error dans getById() :", e);
 		}
-     return null ;
+		return null;
+	}
+
+	@Override
+	public Chalet getChaletById(int id_chalet) {
+
+		try {
+			logger.info("je vais afficher le Chalet par id =" + id_chalet);
+			Optional<Chalet> optional = this.chaletrepository.findById(id_chalet);
+			Chalet chalet = null;
+			if (optional.isPresent()) {
+				chalet = optional.get();
+				return chalet;
+			} else {
+				throw new NotFound("Chalet with id:" + id_chalet + " is not found", null, null);
+			}
+
+		} catch (Exception e) {
+			logger.error("Error dans getById() :", e);
+		}
+		return null;
 	}
 
 }

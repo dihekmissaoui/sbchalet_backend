@@ -145,6 +145,7 @@ public class ReservationController {
 		resp.setChalet(reservation.getChalet());
 		resp.setUser(reservation.getUser());
 		resp.setFiles(reservation.getFiles());
+		resp.setFactures(reservation.getFactures());
 		return resp;
 	}
 }

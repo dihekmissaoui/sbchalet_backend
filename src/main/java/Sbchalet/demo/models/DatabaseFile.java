@@ -51,7 +51,13 @@ public class DatabaseFile {
 			this.data = data;
 			this.chalet = chalet;
 		}
-	
+	public DatabaseFile(String fileName, String fileType, byte[] data, Reservation reservation) {
+		super();
+		this.fileName = fileName;
+		this.fileType = fileType;
+		this.data = data;
+		this.reservation = reservation;
+	}
 
 	public String getId() {
 		return id;
