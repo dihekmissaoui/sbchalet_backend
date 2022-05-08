@@ -39,14 +39,15 @@ public class Chalet implements Serializable {
 	private String ville;
 	@Column
 	private String codeZip;
-	
-	
+
+	@Column
 	private int maxAdulte;
+	@Column
 	private int maxEnfant;
+	@Column
 	private int maxBebe;
+	@Column
 	private int maxAnimal;
-	
-	
 
 	@JsonManagedReference
 	@OneToMany(mappedBy = "chalet", fetch = FetchType.EAGER, targetEntity = Reservation.class, cascade = CascadeType.ALL)
@@ -58,8 +59,6 @@ public class Chalet implements Serializable {
 	@OneToMany(cascade = CascadeType.MERGE, mappedBy = "chalet")
 	private List<Equipement> equipements = new ArrayList<Equipement>();
 
-	
-	
 	public Chalet() {
 	}
 
@@ -89,8 +88,6 @@ public class Chalet implements Serializable {
 		this.reservations = reservations;
 		this.images = images;
 	}
-	
-	
 
 	public Chalet(String description, double prix, String adresse, String etat, String ville, String codeZip) {
 		super();
@@ -100,6 +97,24 @@ public class Chalet implements Serializable {
 		this.etat = etat;
 		this.ville = ville;
 		this.codeZip = codeZip;
+	}
+	
+	
+	
+
+	public Chalet(String description, double prix, String adresse, String etat, String ville, String codeZip,
+			int maxAdulte, int maxEnfant, int maxBebe, int maxAnimal) {
+		super();
+		this.description = description;
+		this.prix = prix;
+		this.adresse = adresse;
+		this.etat = etat;
+		this.ville = ville;
+		this.codeZip = codeZip;
+		this.maxAdulte = maxAdulte;
+		this.maxEnfant = maxEnfant;
+		this.maxBebe = maxBebe;
+		this.maxAnimal = maxAnimal;
 	}
 
 	public String getDescription() {
@@ -149,8 +164,6 @@ public class Chalet implements Serializable {
 	public void setCodeZip(String codeZip) {
 		this.codeZip = codeZip;
 	}
-
-
 
 	public List<DatabaseFile> getImages() {
 		return images;
@@ -211,9 +224,5 @@ public class Chalet implements Serializable {
 	public void setEquipements(List<Equipement> equipements) {
 		this.equipements = equipements;
 	}
-	
-	
-	
-	
 
 }

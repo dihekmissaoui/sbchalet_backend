@@ -12,10 +12,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import Sbchalet.demo.models.DatabaseFile;
-import Sbchalet.demo.payload.response.Response;
+import Sbchalet.demo.payload.response.DatabaseFileResponse;
 import Sbchalet.demo.services.DatabaseFileService;
 
 @RestController
@@ -25,23 +24,33 @@ public class FileUploadController {
 	DatabaseFileService fileStorageService;
 
 	@RequestMapping(path = "/uploadFile", method = RequestMethod.POST, consumes = { "multipart/form-data" })
-	public Response uploadFile(@RequestParam("file") MultipartFile file, @RequestParam int elementId,
+	public DatabaseFileResponse uploadFile(@RequestParam("file") MultipartFile file, @RequestParam int elementId,
 			@RequestParam String partOf) {
 
 		DatabaseFile filename = fileStorageService.storeFile(file, elementId, partOf);
 
-		String filedownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("downloadFile/")
-				.path(filename.getFileName()).toString();
+		return new DatabaseFileResponse(filename.getId(), filename.getFileName(), file.getContentType(), file.getSize(), filename.getData());
 
-		return new Response(filename.getData().toString(), filedownloadUri, file.getContentType(), file.getSize());
+	}
+	@CrossOrigin(origins = "http://localhost:4200")
+	@RequestMapping(path = "/uploadOnlyFile", method = RequestMethod.POST, consumes = { "multipart/form-data" })
+	public DatabaseFileResponse uploadOnlyFile(@RequestParam("file") MultipartFile file) {
+
+		DatabaseFile filename = fileStorageService.storeOnlyFile(file);
+
+		return new DatabaseFileResponse(filename.getId(), filename.getFileName(), file.getContentType(), file.getSize(), filename.getData());
 
 	}
 
 	@PostMapping("/uploadMultiFiles")
-	public List<Response> uploadMultiFiles(@RequestParam("files") MultipartFile[] files, @RequestParam int elementId,
-			@RequestParam String partOf) {
-		return Arrays.asList(files).stream().map(file -> uploadFile(file, elementId, partOf))
-				.collect(Collectors.toList());
+	public List<DatabaseFileResponse> uploadMultiFiles(@RequestParam("files") MultipartFile[] files,
+			@RequestParam(required = false) Integer elementId, @RequestParam(required = false) String partOf) {
+		if (elementId == null && partOf == null) {
+			return Arrays.asList(files).stream().map(file -> uploadOnlyFile(file)).collect(Collectors.toList());
+
+		} else
+			return Arrays.asList(files).stream().map(file -> uploadFile(file, elementId, partOf))
+					.collect(Collectors.toList());
 	}
 
 }

@@ -6,14 +6,12 @@ import java.util.List;
 import java.util.Optional;
 
 import org.apache.log4j.Logger;
-import org.omg.CosNaming.NamingContextPackage.NotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import Sbchalet.demo.exception.FileNotFoundException;
 import Sbchalet.demo.exception.FileStorageException;
-import Sbchalet.demo.exception.PostNotFoundException;
 import Sbchalet.demo.models.Chalet;
 import Sbchalet.demo.models.DatabaseFile;
 import Sbchalet.demo.models.Reservation;
@@ -29,7 +27,7 @@ public class DatabaseFileService {
 	IReservationService reservationService;
 	private static final Logger logger = Logger.getLogger(DatabaseFileService.class);
 
-	public DatabaseFile storeFile(MultipartFile file, int id, String partOf) {
+	public DatabaseFile storeFile(MultipartFile file, Integer id, String partOf) {
 		// Normalize file name
 		String fileName = org.springframework.util.StringUtils.cleanPath(file.getOriginalFilename());
 		try {
@@ -40,31 +38,58 @@ public class DatabaseFileService {
 						"Sorry! Filename contains invalid path sequence " + fileName);
 
 			}
-
-			Object relatedEntity = null;
-			if (partOf.equals("chalet")) {
-				relatedEntity = chaletService.getChaletById(id);
-			}
-			if (partOf.equals("reservation")) {
-				relatedEntity = reservationService.getReservationById(id);
-			}
 			DatabaseFile dbFile = null;
-			if (relatedEntity != null) {
+			if (partOf == null && id == null) {
+				dbFile = new DatabaseFile(fileName, file.getContentType(), file.getBytes());
+				return dbFileRepository.save(dbFile);
+			} else {
+				Object relatedEntity = null;
 				if (partOf.equals("chalet")) {
-					dbFile = new DatabaseFile(fileName, file.getContentType(), file.getBytes(), (Chalet) relatedEntity);
+					relatedEntity = chaletService.getChaletById(id);
 				}
 				if (partOf.equals("reservation")) {
-					dbFile = new DatabaseFile(fileName, file.getContentType(), file.getBytes(),
-							(Reservation) relatedEntity);
+					relatedEntity = reservationService.getReservationById(id);
 				}
-				return dbFileRepository.save(dbFile);
-			} 
+				if (relatedEntity != null) {
+					if (partOf.equals("chalet")) {
+						dbFile = new DatabaseFile(fileName, file.getContentType(), file.getBytes(),
+								(Chalet) relatedEntity);
+					}
+					if (partOf.equals("reservation")) {
+						dbFile = new DatabaseFile(fileName, file.getContentType(), file.getBytes(),
+								(Reservation) relatedEntity);
+					}
+					return dbFileRepository.save(dbFile);
+				}
+			}
 		} catch (IOException ex) {
 			logger.error("Error :", ex);
 			throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
 		}
 		return null;
 
+	}
+
+	public DatabaseFile storeOnlyFile(MultipartFile file) {
+		// Normalize file name
+		String fileName = org.springframework.util.StringUtils.cleanPath(file.getOriginalFilename());
+		try {
+			// Check if the file's name contains invalid characters
+			logger.info("je suis dans storeOnlyFile ()");
+			if (fileName.contains("..")) {
+				throw new Sbchalet.demo.exception.FileStorageException(
+						"Sorry! Filename contains invalid path sequence " + fileName);
+
+			}
+			DatabaseFile dbFile = new DatabaseFile(fileName, file.getContentType(), file.getBytes());
+			DatabaseFile savedFile =dbFileRepository.save(dbFile);
+			System.out.println("SavedFile: "+ savedFile);
+			return savedFile;
+
+		} catch (IOException ex) {
+			logger.error("Error :", ex);
+			throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
+		}
 	}
 
 	public DatabaseFile getFile(String fileId) {
@@ -95,5 +120,39 @@ public class DatabaseFileService {
 		return new ArrayList<DatabaseFile>();
 
 	}
-
+	public DatabaseFile updateFileChalet(String id, Chalet chalet) {
+		Optional<DatabaseFile> optional = dbFileRepository.findById(id);
+		if(optional.isPresent()) {
+			DatabaseFile findedFile = optional.get();
+			findedFile.setChalet(chalet);
+			return dbFileRepository.save(findedFile);
+		}
+		return null;
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

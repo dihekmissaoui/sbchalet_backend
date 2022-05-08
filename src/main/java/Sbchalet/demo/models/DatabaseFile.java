@@ -1,5 +1,7 @@
 package Sbchalet.demo.models;
 
+import java.util.Arrays;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -105,6 +107,12 @@ public class DatabaseFile {
 
 	public void setReservation(Reservation reservation) {
 		this.reservation = reservation;
+	}
+
+	@Override
+	public String toString() {
+		return "DatabaseFile [id=" + id + ", fileName=" + fileName + ", fileType=" + fileType + ", data="
+				+ Arrays.toString(data) + ", chalet=" + chalet + ", reservation=" + reservation + "]";
 	}
 	
 	
