@@ -50,13 +50,13 @@ public class Chalet implements Serializable {
 	private int maxAnimal;
 
 	@JsonManagedReference
-	@OneToMany(mappedBy = "chalet", fetch = FetchType.EAGER, targetEntity = Reservation.class, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "chalet", fetch = FetchType.EAGER, targetEntity = Reservation.class, cascade = CascadeType.REMOVE, orphanRemoval = true)
 	private Set<Reservation> reservations = new HashSet<Reservation>();
 
-	@OneToMany(cascade = CascadeType.MERGE, mappedBy = "chalet")
+	@OneToMany(cascade = {CascadeType.MERGE, CascadeType.REMOVE}, mappedBy = "chalet", orphanRemoval = true)
 	private List<DatabaseFile> images = new ArrayList<DatabaseFile>();
 
-	@OneToMany(cascade = CascadeType.MERGE, mappedBy = "chalet")
+	@OneToMany(cascade = {CascadeType.MERGE, CascadeType.REMOVE}, mappedBy = "chalet", orphanRemoval = true)
 	private List<Equipement> equipements = new ArrayList<Equipement>();
 
 	public Chalet() {

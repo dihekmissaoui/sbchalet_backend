@@ -17,4 +17,6 @@ public interface IChaletService {
 	Optional<Chalet> getById(int id_chalet);
 	
 	Chalet getChaletById(int id_chalet);
+	
+	 
 }

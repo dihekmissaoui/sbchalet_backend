@@ -7,19 +7,21 @@ import java.util.Optional;
 import org.apache.log4j.Logger;
 import org.omg.CosNaming.NamingContextPackage.NotFound;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
 import Sbchalet.demo.models.Chalet;
+import Sbchalet.demo.models.Reservation;
 import Sbchalet.demo.repository.ChaletRepository;
+import Sbchalet.demo.repository.ReservationRepository;
 
 @Service
 public class ChaletServiceImpl implements IChaletService {
 	@Autowired
 	private ChaletRepository chaletrepository;
-
+	
+	@Autowired 
+	private ReservationRepository reservationRepository;
+	
 	private static final Logger logger = Logger.getLogger(ChaletServiceImpl.class);
 
 	@Override
@@ -55,12 +57,20 @@ public class ChaletServiceImpl implements IChaletService {
 	public void remove(int id_chalet) {
 		try {
 			logger.info("supprimer chalet= " + id_chalet);
-			this.chaletrepository.deleteById(id_chalet);
+			Chalet c = this.getChaletById(id_chalet);
+			
+			List<Reservation> relatedReservations = (ArrayList<Reservation>) reservationRepository.getReservationByChaletId(id_chalet);
+			for (Reservation reservation : relatedReservations) {
+				reservation.setChalet(null);
+				this.reservationRepository.save(reservation);
+				this.reservationRepository.delete(reservation);
+			}
+			this.chaletrepository.delete(c);
+			this.chaletrepository.flush();
+			
 		} catch (Exception e) {
 			logger.error("Error dans remove() :", e);
 		}
-		logger.info("chalet n'existe pas");
-
 	}
 
 	@Override
