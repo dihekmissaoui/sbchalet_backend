@@ -52,9 +52,9 @@ public class FactureServiceImplTest {
 	public void testupdateFacture() throws Exception {
 //		float mantontfact = 300;
 //		Date date = new SimpleDateFormat("yyyy-MM-dd").parse("2022-03-02");
-//		Facture fact = new Facture(3, date, mantontfact, 2);//hetha eli nheb nzidu w ntasti bih  
+//		Facture fact = new Facture(3, date, mantontfact, 2);//
 //		fact.setId_Facture(3);
-//		Facture f = REP.save(fact); // eli mawjud 3andi fel bd ba3ed mabdelt  eli houwa nafsou fact
+//		Facture f = REP.save(fact); // 
 //		Assertions.assertEquals(fact.getMontant(), f.getMontant());
 
 	}
