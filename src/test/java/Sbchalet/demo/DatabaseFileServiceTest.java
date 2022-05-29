@@ -21,9 +21,9 @@ class DatabaseFileServiceTest {
 	DatabaseFileRepository rep;
 
 	@Test
-	public void testgetAll() {
+	public void testgetAll() throws Exception{
 		List<DatabaseFile> data = rep.findAll();
-		Assertions.assertEquals(4, data.size());
+		Assertions.assertEquals(37, data.size());
 
 	}
 

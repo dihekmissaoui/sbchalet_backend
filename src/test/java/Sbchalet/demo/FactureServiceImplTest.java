@@ -12,6 +12,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
@@ -21,7 +22,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import Sbchalet.demo.models.Facture;
+import Sbchalet.demo.models.Reservation;
 import Sbchalet.demo.repository.FactureRepository;
+import Sbchalet.demo.services.FactureServiceImpl;
 import Sbchalet.demo.services.IFactureService;
 
 @RunWith(SpringRunner.class)
@@ -30,40 +33,35 @@ public class FactureServiceImplTest {
 
 	@Autowired
 	private FactureRepository REP;
-
+	 @Autowired
+     private FactureServiceImpl fs ;
+	 
 	@Test
 	public void testList() throws Exception {
 		List<Facture> fact = REP.findAll();
-		Assertions.assertEquals(14, fact.size());
+		Assertions.assertEquals(16, fact.size());
 	}
 
 	@Test
 	public void testsave() {
-		Facture fac = new Facture();
-		fac.setDateFacture(new Date());
-		fac.setMontant(28);
-//		fac..getsetIdResarvation(2);
-		REP.save(fac);
-//		assertNotNull(fac.getIdResarvation());
-
+		Facture facExpected = new Facture(53,new Date(),13);
+        Facture fActuel = REP.save(facExpected);
+        Assertions.assertEquals(facExpected.getMontant(), fActuel.getMontant());
 	}
 
 	@Test
 	public void testupdateFacture() throws Exception {
-//		float mantontfact = 300;
-//		Date date = new SimpleDateFormat("yyyy-MM-dd").parse("2022-03-02");
-//		Facture fact = new Facture(3, date, mantontfact, 2);//
-//		fact.setId_Facture(3);
-//		Facture f = REP.save(fact); // 
-//		Assertions.assertEquals(fact.getMontant(), f.getMontant());
-
+        Facture fExpected = new Facture (53,new Date(),16);
+        Facture fActuel = fs.updateFacture(fExpected.getId(),fExpected);
+        Assertions.assertEquals(fExpected.getMontant(), fActuel.getMontant());
 	}
 	
 	  @Test
 	  public void testgetById() {
-		Facture f = REP.getById(50);	
-		Assertions.assertNotNull(50);
-		  
+		Optional<Facture> f = fs.getById(47);
+		Assertions.assertTrue(f.isPresent());
+	
+		
 		  
 	  }
 

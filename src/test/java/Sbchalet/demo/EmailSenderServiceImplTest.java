@@ -18,9 +18,9 @@ class EmailSenderServiceImplTest {
 	public void testsendEmail () {
 		EmailMessage email = new EmailMessage();
 		email.setTo("dihekmissaoui23@gmail.com");
-		email.setSubject("subject");
+		email.setSubject("helooooo");
 		email.setMessage("message");
-		Assertions.assertNotNull(email);
+		Assertions.assertNotNull(email.getSubject());
 		
 	}
 }
