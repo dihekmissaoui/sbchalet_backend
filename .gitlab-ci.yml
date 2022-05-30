@@ -2,7 +2,6 @@ stages:
   - test
   - build jar
   - build and push docker image
-  - deploy
 test_job:
   image: maven:3.6.3-jdk-8
   stage: test
