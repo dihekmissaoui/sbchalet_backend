@@ -13,13 +13,3 @@ test_job:
 
   only:
     - master
-build:
-  image: maven:3.6.3-jdk-8
-  stage: build jar
-  script:
-    - mvn clean install 
-  artifacts:
-    paths:
-      - target/*.jar
-  only:
-    - master
