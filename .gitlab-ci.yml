@@ -1,29 +1,27 @@
-variables:
-  MAVEN_OPTS: -Dmaven.repo.local=.m2/reposito
-
-image: dihekmissaoui/devops:latest
-
 stages:
-    - build
-    - test
-
-
-
-cache:
-  paths:
-    - .m2/repository
-    - target
-
-
-build_job:
-  stage: build
-  script: 
-    - "mvn compile"
-
-
+  - test
+  - build jar
+  - build and push docker image
+  - deploy
 test_job:
+  image: maven:3.6.3-jdk-8
   stage: test
   script:
-    - "mvn test"
-
-
+    - pwd
+    - mvn clean
+    - mvn compile
+    - mvn test
+  tags:
+    - test
+  only:
+    - master
+build:
+  image: maven:3.6.3-jdk-8
+  stage: build jar
+  script:
+    - mvn clean install 
+  artifacts:
+    paths:
+      - target/*.jar
+  only:
+    - master
