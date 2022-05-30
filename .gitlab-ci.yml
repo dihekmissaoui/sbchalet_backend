@@ -1,7 +1,7 @@
 variables:
   MAVEN_OPTS: -Dmaven.repo.local=.m2/repository
 
-image: maven:latest
+image: dihekmissaoui/devops:latest
 stages:
     - build
     - test
