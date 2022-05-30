@@ -9,7 +9,7 @@ test_job:
     - pwd
     - mvn clean
     - mvn compile
-    - mvn test
+    
 
   only:
     - master
