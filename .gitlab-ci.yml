@@ -11,5 +11,12 @@ test_job:
     - mvn compile
     
 
+build:
+  image: maven:3.6.3-jdk-8
+  stage: build jar
+  script:
+    - mvn install -DskipTests=true
   only:
     - master
+
+    
