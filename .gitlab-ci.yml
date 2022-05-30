@@ -1,4 +1,6 @@
-image: maven:dihekmissaoui/devops:latest
+image: maven:latest
+
+
 
 stages:
     - build
