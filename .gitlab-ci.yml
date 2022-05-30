@@ -1,7 +1,20 @@
-image: maven:latest
+variables:
+  MAVEN_OPTS: -Dmaven.repo.local=.m2/reposito
+
+image: dihekmissaoui/devops:latest
+
 stages:
     - build
     - test
+
+
+
+cache:
+  paths:
+    - .m2/repository
+    - target
+
+
 build_job:
   stage: build
   script: 
