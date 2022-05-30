@@ -1,4 +1,4 @@
-
+image: dihekmissaoui/devops
 stages:
     - build
     - test
