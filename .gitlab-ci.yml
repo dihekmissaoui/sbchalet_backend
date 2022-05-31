@@ -25,14 +25,17 @@ build:
       - target/*.jar
 
 docker build:
+  image: docker:latest
+  stage: build
   services:
-    - maven:3.6.3-jdk-8
-  image: maven:3.6.3-jdk-8
-  stage: build and push docker image
+    - docker:build
+  before_script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
   script:
-    - docker login registry.gitlab.com
-    - docker build -t registry.gitlab.com/dihekmissaoui/sbchaletbackend .
-    - docker push registry.gitlab.com/dihekmissaoui/sbchaletbackend
+    - docker build --pull -t "$CI_REGISTRY_IMAGE" .
+    - docker push "$CI_REGISTRY_IMAGE"
+  only:
+    - master
 
 
 
