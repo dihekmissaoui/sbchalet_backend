@@ -44,7 +44,7 @@
 stages:
   - test
   - build jar
-  - build and push docker image
+  - build-docker-image
 
 test_job:
   image: maven:3.6.3-jdk-8
@@ -60,3 +60,9 @@ build:
   stage: build jar
   script:
     - mvn clean install -DskipTests=true
+Build Docker Image:
+  image: maven:3.6.3-jdk-8
+  stage: build-docker-image
+  script:
+    - docker info
+    - docker build -t dihekmissaoui/devops
