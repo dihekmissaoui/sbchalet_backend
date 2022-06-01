@@ -28,7 +28,7 @@ Build Java Project:
   image: maven:3.6.3-jdk-8
   stage: build-java-project
   script:
-    mvn --version
+    #mvn --version
     mvn clean install
   artifacts:
     paths:
