@@ -8,7 +8,7 @@ Build Java Project:
     mvn package
   artifacts:
     paths:
-      - Users\Houssem\Downloads\gitlab-runner\
+      - /Users/Houssem/Downloads/gitlab-runner/
 
 Build Docker Image:
   stage: build-docker-image
