@@ -36,4 +36,4 @@ Build Docker Image:
   stage: build-docker-image
   script:
     - docker info
-    - docker build -t dihekmissaoui/devops .
+    - docker build -t dihekmissaoui/devops
