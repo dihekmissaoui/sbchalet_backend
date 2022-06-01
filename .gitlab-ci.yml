@@ -32,7 +32,7 @@ Build Java Project:
     mvn clean install
   artifacts:
     paths:
-      - C:\Users\Houssem\Downloads\gitlab-runner
+      - C:\Users\Houssem\Downloads\gitlab-runner\
 
 Build Docker Image:
   image: maven:3.6.3-jdk-8
