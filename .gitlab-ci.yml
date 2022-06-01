@@ -28,7 +28,6 @@ docker build:
     - docker build -t $CI_REGISTRY_IMAGE .
     - docker login -u $DOCKER_USER -p $DOCKER_PASSWORD docker.io
     - docker push $DOCKER_REPO:latest
-  only:
-    - master
+  
   
   
