@@ -27,7 +27,7 @@ stages:
 Build Java Project:
   stage: build
   script:
-    mvn package
+    mvn clean install
   artifacts:
     paths:
       - C:\Users\Houssem\Downloads\gitlab-runner
