@@ -26,8 +26,8 @@ build:
 
 docker build:
   services:
-    - maven:3.6.3-jdk-8
-  image: maven:3.6.3-jdk-8
+    - docker:19.03.13-dind
+  image: docker:19.03.13-dind
   stage: build and push docker image
   script:
     - docker build --build-arg SPRING_ACTIVE_PROFILE=dev -t $DOCKER_REPO:latest .
