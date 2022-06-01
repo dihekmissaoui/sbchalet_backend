@@ -19,43 +19,16 @@ build:
 
   only:
     - master
-
-  artifacts:
-    paths:
-      - target/*.jar
-variables:
-  CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE:test
-
-login_job:
-  stage: Login
-  tags:
-    - docker
+docker build:
+  services:
+    - docker:19.03.13-dind
+  image: docker:19.03.13-dind
+  stage: build and push docker image
   script:
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    
-
-build_job:
-  stage: Build
-  tags:
-    - docker
-  script:
-    - docker build -t $CONTAINER_TEST_IMAGE .
-    
-push_job:
-  stage: Push
-  tags:
-    - docker
-  script:
-    - docker push $CONTAINER_TEST_IMAGE
-
-logout_job:
-  stage: Logout
-  tags:
-    - docker
-  script:
-    - docker logout $CI_REGISTRY
-
-
-
-
-    
+    - docker build --build-arg SPRING_ACTIVE_PROFILE=dev -t $DOCKER_REPO:latest .
+    - docker login -u $DOCKER_USER -p $DOCKER_PASSWORD docker.io
+    - docker push $DOCKER_REPO:latest
+  only:
+    - master
+  
+  
