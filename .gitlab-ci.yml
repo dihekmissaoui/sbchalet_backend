@@ -27,6 +27,7 @@ stages:
 Build Java Project:
   stage: build-java-project
   script:
+    mvn --version
     mvn clean install
   artifacts:
     paths:
