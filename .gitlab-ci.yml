@@ -25,16 +25,14 @@ build:
       - target/*.jar
 
 docker build:
-  image: docker:latest
-  stage: build
   services:
-    - docker:build
+    - maven:3.6.3-jdk-8
+  image: maven:3.6.3-jdk-8
+  stage: build and push docker image
   script:
-    - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin
-    - docker build -t $CI_REGISTRY_IMAGE .
-    - docker push $CI_REGISTRY_IMAGE
-  only:
-    - master
+    - docker build --build-arg SPRING_ACTIVE_PROFILE=dev -t $DOCKER_REPO:latest .
+    - docker login -u $DOCKER_USER -p $DOCKER_PASSWORD docker.io
+    - docker push $DOCKER_REPO:latest
 
 
 
