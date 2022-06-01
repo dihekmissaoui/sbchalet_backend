@@ -1,38 +1,20 @@
 stages:
-  - test
-  - build jar
-  - build and push docker image
-test_job:
-  image: maven:3.6.3-jdk-8
-  stage: test
+  - build
+  - build-docker-image
+
+Build Java Project:
+  stage: build
   script:
-    - pwd
-    - mvn clean
-    - mvn compile
-    
+    mvn package
+  artifacts:
+    paths:
+      - Users\Houssem\Downloads\gitlab-runner\
 
-build:
-  image: maven:3.6.3-jdk-8
-  stage: build jar
+Build Docker Image:
+  stage: build-docker-image
   script:
-    - mvn install -DskipTests=true
-
-      
-
-  only:
-    - master
- 
-docker build:
-  services:
-    - docker:19.03.13-dind
-  image: docker:19.03.13-dind
-  stage: build and push docker image
-  script:
-    -docker build -t registry.gitlab.com/dihekmissaoui/sbchaletbackend .
-    -docker login registry.gitlab.com
-    -docker push registry.gitlab.com/dihekmissaoui/sbchaletbackend
-        
-
+    - docker info
+    - docker build -t dihekmissaoui/devops .
   
   
   
