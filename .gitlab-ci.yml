@@ -20,23 +20,43 @@
 
 
   ######################
+# stages:
+#   - build-java-project
+#   - build-docker-image
+
+# Build Java Project:
+#   image: maven:3.6.3-jdk-8
+#   stage: build-java-project
+#   script:
+#     #mvn --version
+#     mvn clean install
+#   artifacts:
+#     paths:
+#       - C:\Users\Houssem\Downloads\gitlab-runner\
+
+# Build Docker Image:
+#   image: maven:3.6.3-jdk-8
+#   stage: build-docker-image
+#   script:
+#     - docker info
+#     - docker build -t dihekmissaoui/devops
+##########################
 stages:
-  - build-java-project
-  - build-docker-image
+  - test
+  - build jar
+  - build and push docker image
 
-Build Java Project:
+test_job:
   image: maven:3.6.3-jdk-8
-  stage: build-java-project
+  stage: test
   script:
-    #mvn --version
-    mvn clean install
-  artifacts:
-    paths:
-      - C:\Users\Houssem\Downloads\gitlab-runner\
+    - pwd
+    - mvn clean
+    - mvn compile
+    
 
-Build Docker Image:
+build:
   image: maven:3.6.3-jdk-8
-  stage: build-docker-image
+  stage: build jar
   script:
-    - docker info
-    - docker build -t dihekmissaoui/devops
+    - mvn clean install -DskipTests=true
