@@ -28,8 +28,8 @@ docker build:
   image: docker:19.03.13-dind
   stage: build and push docker image
   script:
-    -docker login registry.gitlab.com
     -docker build -t registry.gitlab.com/dihekmissaoui/sbchaletbackend .
+    -docker login registry.gitlab.com
     -docker push registry.gitlab.com/dihekmissaoui/sbchaletbackend
         
 
