@@ -21,11 +21,11 @@
 
   ######################
 stages:
-  - build
+  - build-java-project
   - build-docker-image
 
 Build Java Project:
-  stage: build
+  stage: build-java-project
   script:
     mvn clean install
   artifacts:
