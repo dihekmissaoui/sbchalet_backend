@@ -61,7 +61,7 @@ build:
   script:
     - mvn clean install -DskipTests=true
 Build Docker Image:
-  image: docker:latest
+  image: docker:19-dind
   stage: build-docker-image
   script:
     - docker info
