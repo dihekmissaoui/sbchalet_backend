@@ -42,17 +42,17 @@
 #     - docker build -t dihekmissaoui/devops
 ##########################
 stages:
-  - test
+  # - test
   - build jar
   - build-docker-image
 
-test_job:
-  image: maven:3.6.3-jdk-8
-  stage: test
-  script:
-    - pwd
-    - mvn clean
-    - mvn compile
+# test_job:
+#   image: maven:3.6.3-jdk-8
+#   stage: test
+#   script:
+#     - pwd
+#     - mvn clean
+#     - mvn compile
     
 
 build:
@@ -61,7 +61,7 @@ build:
   script:
     - mvn clean install -DskipTests=true
 Build Docker Image:
-  image: maven:3.6.3-jdk-8
+  image: docker:latest
   stage: build-docker-image
   script:
     - docker info
