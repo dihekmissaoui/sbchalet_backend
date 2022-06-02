@@ -11,7 +11,7 @@ Build Docker Image:
   stage: build-docker-image
   image: docker
   services:
-    - docker:docker:19.03-dind
+    - docker:docker:17-dind
   script:
     - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin
     - docker build -t $CI_REGISTRY_IMAGE .
