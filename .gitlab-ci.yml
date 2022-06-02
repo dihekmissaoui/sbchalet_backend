@@ -14,7 +14,7 @@ Build Docker Image:
     - docker:dind
   script:
     - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin
-    - docker build -t $CI_REGISTRY_IMAGE .
+    - - export DOCKER_HOST=tcp://197.2.218.138:2375 && docker build -t $CI_REGISTRY_IMAGE .
     - echo $CI_REGISTRY_IMAGE
     - docker push $CI_REGISTRY_IMAGE
     # - export DOCKER_HOST=tcp://localhost:2375 && docker build -t dihekmissaoui/devops .
