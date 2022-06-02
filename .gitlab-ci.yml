@@ -64,6 +64,6 @@ Build Docker Image:
   image: docker:19-dind
   stage: build-docker-image
   script:
-    - export DOCKER_HOST=tcp://localhost:2375 && docker build -t dihekmissaoui/devops .
+    - export DOCKER_HOST=tcp://localhost:8080 && docker build -t dihekmissaoui/devops .
     #- docker info
     # - docker build -t dihekmissaoui/devops
