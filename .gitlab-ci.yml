@@ -1,60 +1,7 @@
-# stages:
-#   - test
-#   - build jar
-#   - build and push docker image
 
-# test_job:
-#   image: maven:3.6.3-jdk-8
-#   stage: test
-#   script:
-#     - pwd
-#     - mvn clean
-#     - mvn compile
-    
-
-# build:
-#   image: maven:3.6.3-jdk-8
-#   stage: build jar
-#   script:
-#     - mvn install -DskipTests=true
-
-
-  ######################
-# stages:
-#   - build-java-project
-#   - build-docker-image
-
-# Build Java Project:
-#   image: maven:3.6.3-jdk-8
-#   stage: build-java-project
-#   script:
-#     #mvn --version
-#     mvn clean install
-#   artifacts:
-#     paths:
-#       - C:\Users\Houssem\Downloads\gitlab-runner\
-
-# Build Docker Image:
-#   image: maven:3.6.3-jdk-8
-#   stage: build-docker-image
-#   script:
-#     - docker info
-#     - docker build -t dihekmissaoui/devops
-##########################
 stages:
-  # - test
   - build jar
   - build-docker-image
-
-# test_job:
-#   image: maven:3.6.3-jdk-8
-#   stage: test
-#   script:
-#     - pwd
-#     - mvn clean
-#     - mvn compile
-    
-
 build:
   image: maven:3.6.3-jdk-8
   stage: build jar
@@ -64,6 +11,8 @@ Build Docker Image:
   image: docker:stable
   stage: build-docker-image
   script:
-    - export DOCKER_HOST=tcp://localhost:2375 && docker build -t dihekmissaoui/devops .
-    #- docker info
-    # - docker build -t dihekmissaoui/devops
+    - echo $CI_REGISTRY_PASSWORD |  $docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin
+    - docker build -t $CI_REGISTRY_IMAGE .
+    - echo $CI_REGISTRY_IMAGE
+    - docker push $CI_REGISTRY_IMAGE
+    # - export DOCKER_HOST=tcp://localhost:2375 && docker build -t dihekmissaoui/devops .
