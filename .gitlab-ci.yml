@@ -61,7 +61,7 @@ build:
   script:
     - mvn clean install -DskipTests=true
 Build Docker Image:
-  image: docker:18-dind
+  image: docker:stable
   stage: build-docker-image
   script:
     - export DOCKER_HOST=tcp://localhost:2375 && docker build -t dihekmissaoui/devops .
